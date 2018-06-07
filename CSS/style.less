@@ -1,0 +1,69 @@
+
+@import url("less_mixins.less");
+
+@primary-color: #000;
+@secundary-color: #ccc;
+
+.circle {
+    position: relative;
+    border-radius: 50%;
+    
+    &::after {
+        content: "";
+        display: block;
+        padding-bottom: 100%;
+    }
+}
+
+.circle--bordered {
+    &:extend(.circle all);
+    background: white;
+    border: 1px solid @primary-color;
+
+    &:hover {
+        background: @secundary-color;
+    }
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    main {
+        &:extend(.circle all); 
+        width: 20%; 
+        
+        .nav-circle {
+            &:extend(.circle all);
+            position: absolute;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+
+            &.about > section {width: 100%;}
+            &.school {transform: translate(-45%, -45%);}
+            &.work {transform: translate(-62%, 0);}
+            &.contact {transform: translate(-45%, 45%);}
+
+            &__inner-nav-circle {
+                &:extend(.circle--bordered all);
+                width: 40%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                pointer-events: initial;
+                cursor: pointer;
+
+                svg {
+                    width: 40%;
+                }
+            }
+
+            
+        }
+    }
+}
