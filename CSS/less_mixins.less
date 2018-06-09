@@ -1,8 +1,15 @@
-
 .position (@position, @top, @right, @bottom, @left) {
     position: @position;
     top: @top;
     right: @right;
     bottom: @bottom;
     left: @left;
+}
+
+.translate(@x, @y) {
+    transform+_: translate(@x, @y);
+}
+
+.translate3d(@x, @y, @z) {
+    transform+_: translate3d(@x, @y, @z);
 }

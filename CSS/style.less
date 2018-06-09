@@ -1,13 +1,11 @@
-
 @import url("less_mixins.less");
-
 @primary-color: #000;
 @secundary-color: #ccc;
 
 .circle {
     position: relative;
     border-radius: 50%;
-    
+
     &::after {
         content: "";
         display: block;
@@ -25,16 +23,19 @@
     }
 }
 
-body {
+.wrapper {
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
+    perspective: 500px;
 
-    main {
-        &:extend(.circle all); 
-        width: 20%; 
-        
+    .container {
+        &:extend(.circle all);
+        width: 20%;
+        transition: transform 1s ease-in-out;
+
         .nav-circle {
             &:extend(.circle all);
             position: absolute;
@@ -44,10 +45,10 @@ body {
             justify-content: center;
             pointer-events: none;
 
-            &.about > section {width: 100%;}
-            &.school {transform: translate(-45%, -45%);}
-            &.work {transform: translate(-62%, 0);}
-            &.contact {transform: translate(-45%, 45%);}
+            &.about > section { width: 100%; }
+            &.school { .translate(-45%, -45%); }
+            &.work { .translate(-62%, 0); }
+            &.contact { .translate(-45%, 45%); }
 
             &__inner-nav-circle {
                 &:extend(.circle--bordered all);
@@ -57,13 +58,33 @@ body {
                 justify-content: center;
                 pointer-events: initial;
                 cursor: pointer;
+                transform: perspective(500px);
+                transition: border-color 1s ease-in-out;
 
                 svg {
                     width: 40%;
                 }
             }
+        }
 
-            
+        &--center {
+
+            .merge-background & {
+                background: gray;
+            }
+
+            &--about { .translate3d(0, 0, 400px); }
+            &--school { .translate3d(45%, 45%, 450px); }
+            &--work { .translate3d(62%, 0%, 450px); }
+            &--contact { .translate3d(44%, -45%, 450px); }
+
+            .nav-circle {
+           
+                &__inner-nav-circle {
+                    border-color: transparent;
+                    pointer-events: none;
+                }
+            }
         }
     }
 }
