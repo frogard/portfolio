@@ -26,12 +26,23 @@
 }
 
 .ascend {
-    transition: transform 1s ease-in-out;
     .translate(0, -100%);
 }
 
+.in-view {
+    .translate(0, 0);
+}
+
+.descend {
+    .translate(0, 100%);
+}
+
+.fill {
+    .position(absolute, 0, 0, 0, 0);
+    transition: transform 1s ease-in-out;
+}
+
 .page-wrapper {
-    padding: 0 1rem;
     overflow: hidden;
 
     &--scroll {
@@ -39,23 +50,19 @@
     }
 
     .nav {
-        height: 100vh;
+        &:extend(.fill);
         display: flex;
         align-items: center;
         justify-content: center;
+        overflow: hidden;
         perspective: 500px;
-
-        &--dismissed {
-            display: none;
-        }
 
         &__container {
             &:extend(.circle all);
             width: 20%;
+            transition: transform .7s ease-in-out;
             
-
             &--center {
-                transition: transform .7s ease-in-out;
 
                 &--about { .translate3d(0, 0, 300px); }
                 &--school { .translate3d(45%, 45%, 400px); }
@@ -98,14 +105,10 @@
                     &__icon {
                         width: 40%;
                         backface-visibility: hidden;
+                        transition: opacity .7s ease-in-out;
 
                         &--vanish {
-                            transition: opacity .7s ease-in-out;
                             opacity: 0;
-                        }
-
-                        &--remain {
-                            opacity: 1;
                         }
                     }  
                 }
@@ -114,8 +117,7 @@
     }
 
     .content {
-        position: absolute;
-        min-height: 100vh;
+        &:extend(.fill);
 
         &__block {
             display: none;
@@ -123,16 +125,12 @@
             transition: opacity 1s ease-in-out;
 
             &--active {
-                display: block;
                 opacity: 1;
             }
-        }
 
-        &--settled {
-            position: static;
-            min-height: initial;
-            transition: none;
-            transform: none;
+            &--added {
+                display: block;
+            }
         }
     }
 }

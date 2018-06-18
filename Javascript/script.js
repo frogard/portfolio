@@ -1,43 +1,60 @@
 
 $(document).ready(function () {
 
-    var icon = "nav-circle__inner-nav-circle__icon";
+    var icon = "nav-circle__inner-nav-circle__icon",
+        zoom;
 
-    $(".nav-circle__inner-nav-circle").click(function () {
-        if ($(this).parent().hasClass("about")) {
-            activateNavCircle("about");
-        } else if ($(this).parent().hasClass("school")) {
-            activateNavCircle("school");
-        } else if ($(this).parent().hasClass("work")) {
-            activateNavCircle("work");
+    $(".nav-circle__inner-nav-circle, .back").click(function () {
+        if ($(this).hasClass("nav-circle__inner-nav-circle")) {
+            zoom = "in";
         } else {
-            activateNavCircle("contact");
+            zoom = "out";
+        }
+
+        if ($(this).parent().hasClass("about")) {
+            changeView("about", zoom, "yes");
+        } else if ($(this).parent().hasClass("school")) {
+            changeView("school", zoom, "yes");
+        } else if ($(this).parent().hasClass("work")) {
+            changeView("work", zoom, "yes");
+        } else {
+            changeView("contact", zoom, "yes");
         }
     });
 
-    function activateNavCircle(navCircle) {
-        $(".nav__container").addClass("nav__container--center nav__container--center--" + navCircle);
-        $("." + icon).addClass(icon + "--vanish");
-        $("." + navCircle).find("." + icon).addClass(icon + "--remain");
+    function changeView(navCircle, zoom, skip) {
 
-        function ascendContent () {
-            $(".content__block." + navCircle).addClass("content__block--active");
-            $(".nav, .content").addClass("ascend");
+        if (zoom == "in" || skip == "no") {
+            $(".nav__container").toggleClass("nav__container--center nav__container--center--" + navCircle);
+            $("." + icon).toggleClass(icon + "--vanish");
+            $("." + navCircle).find("." + icon).toggleClass(icon + "--vanish");
+            $(".content__block." + navCircle).toggleClass("content__block--added");
 
-            function settleContent () {
-                $(".page-wrapper").addClass("page-wrapper" + "--scroll");
-                $(".nav").addClass("nav" + "--dismissed");
-                $(".content").addClass("content" + "--settled");
+            if (zoom == "in") {
+                setTimeout(function () {
+                    elevator();
+                }, 700);
             }
 
-            setTimeout(function() {
-                settleContent();
-            }, 1000);
+        } else {
+            elevator();
         }
 
-        setTimeout(function() {
-            ascendContent();
-        }, 700);
-    }
+        function elevator() {
+            $(".content__block." + navCircle).toggleClass("content__block--active");
+            $(".nav").toggleClass("in-view").toggleClass("ascend");
+            $(".content").toggleClass("descend").toggleClass("in-view");
 
+            if (zoom == "in") {
+                setTimeout(function () {
+                    $(".page-wrapper").addClass("page-wrapper" + "--scroll");
+                }, 1000);
+            } else {
+                $(".page-wrapper").removeClass("page-wrapper" + "--scroll");
+                setTimeout(function () {
+                    changeView(navCircle, zoom, "no");
+                }, 700);
+            }
+        }
+    }
 });
